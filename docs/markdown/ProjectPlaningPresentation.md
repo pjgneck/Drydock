@@ -1,97 +1,195 @@
-# ⚓ Drydock: The Offline Logic Studio
+---
+marp: false
+title: ⚓ Drydock: The Python Data Station
+theme: default
+paginate: true
+---
+
+# ⚓ Drydock  
+## The Data Station  
+### The Lightweight IDE for Rapid Data Processing
 
 ---
 
-# The Problem
+## The Problem
 
-1.  EDI is overly complicated.
-    - It relies on archaic, fragile formats that are brittle and hard to read.
-2.  Debugging is a nightmare.
-    - Developers are stuck in a "Black Box," unable to see data flow until it crashes.
-3.  It is a "Necessary Evil."
-    - The global supply chain runs on it. We can't escape it, so we have to fix how we work with it.
-4. The AI problem
-    - Generative AI writes code instantly, but often "hallucinates" subtle logic bugs that are impossible to catch without running real data.
-5. Heavy Environment Overhead.
-    - Setting up a full local dev environment (Docker, Java Runtimes, Middleware) is painful and unnecessary for simple configuration scripts.
+### EDI is Overly Complicated
+- Relies on archaic, fragile formats  
+- Brittle and hard to read
 
---- 
+### Debugging is a Nightmare
+- Developers stuck in a **black box**
+- Data flow invisible until cloud failure
 
-# Drydock
+### It is a "Necessary Evil"
+- The global supply chain runs on it. We can't escape it, so we have to fix how we work with it.
 
-Drydock is a Desktop IDE specifically for building and debugging data transformation logic offline. We pull the logic "out of the water" (Production) and put it in a safe "Drydock" (Local Sandbox) where we can modify, adjust, or repair it in real time.
 
 ---
 
-# Drydock Capabilities
+## What is Drydock?
 
-1. True Hybrid Editing (Code + Visual)
-    - Write code directly in the text editor, and the blocks appear automatically.
-    - Drag blocks, and the code writes itself.
-    - Real coding power for pros, visual clarity for everyone.
+**Drydock** is a purpose-built **Desktop IDE** designed strictly for **data transformation logic**.
 
-2. Zero-Latency Debugging
-    - Test logic against massive EDI files instantly in a local sandbox.
+### Linear Workflow
+**Load Data (Left)** → **Write Python (Center)** → **See Results (Right)**
 
-3. Production-Grade Safety
-    - Built-in guardrails for Oracle and SQL mappings.
-    - Ensures absolute null-safety before deployment.
-
-4. Universal Compatibility No Vendor Lock-in
-    - Import your broken scripts, fix them in Drydock.
-    - Export standard, clean Java or Python.
-    - works with any software 
+### Key Principles
+- No setup
+- Real Python (For now)
+- Instant execution on real files  
+- No uploads, no waiting
 
 ---
 
-# Core Features
+## Core Features (1/2)
 
-1. **Hybrid Logic Editor** - A dual-view interface (Visual Blocks + Text DSL) with instant bi-directional sync.
+### 1. Tri-Pane Linear Interface
+- Rigid, intuitive workflow  
+- **Input → Logic → Output**
 
-2. Drydock Script (DSL) - A proprietary, concise, null-safe scripting language designed specifically for data piping.
+### 2. File-First Input Engine
+- Left pane is a **file previewer**
+- Drag-and-drop raw files  
+- Supports CSV, EDI, JSON
 
-3. Live Data Inspector - Real-time debugging panel to visualize data states (Input $\rightarrow$ Transformation $\rightarrow$ Output) without deploying.
-
-4. **Polyglot Transpiler** - A modular engine that compiles logic into standardized Java/Groovy or Python.
-
-5. Offline Engine - A complete local environment featuring a Mock Context Manager (for variables) and Legacy Data Parsers (for EDI/XML).
-
---- 
-
-# Requirements
-
-1. Native Electron application (Windows, macOS, Linux).
-2. Utilization of Node.js Child Processes to prevent UI freezing.
-3. Enforced Null Safety logic in all generated code.
-4. Export functions must wrap code in target-specific Boilerplate.
-5. Inspector must strictly detect and display Data Types (String/Int/Date).
+### 3. Invisible Wrapper Engine
+- System handles all file I/O
+- Users write only Python transformation logic
 
 ---
 
-# Drydock Architecture
+## Core Features (2/2)
 
-1. The AST Manager
-    - the JSON brain that handles all logic.
-    - The Importer (Java/Python -> Docker) 
-2. Node.js (The Engine) 
-    - Logic executes in an isolated Node.js Child Process.
-    - allows Testing of massive files or accidental infinite loops.
-3. The transpiler
-    - We don't export proprietary files.
-    - We transpile the AST directly to Native Java or Python.
-    - Zero lock-in for third Party systems
+### 4. Live Data Inspector
+- Auto-detects output format
+- JSON / XML highlighting & folding
+
+### 5. Safe-Mode Execution
+- Isolated Node.js Child Process
+- Strict timeouts prevent crashes
 
 ---
 
-# Sprint 1
+## Requirements 1–2
 
-Week 1:
-    - Setup Electron with TypeScript, React, and Redux.
-    - Define the JSON specification for the Pipeline and Statement objects (the internal data structure).
-Week 2:
-    - Build the UI Scaffold and Structure
-Week 3:
-    - Editor Integration with Google Blockly and Monaco Editor
-    - set up syntax highlighting for the Drydock Script Lan
-Week 4: 
-    - Set up the AST Manager
+### Cross-Platform Parity
+- One Electron app
+- Runs the same on Windows, macOS, and Linux
+
+### Process Isolation
+- User code runs outside the UI
+- App never freezes or crashes
+
+---
+
+## Requirements 3–4
+
+### State Synchronization
+- One shared store
+- Keeps Input, Script, and Output in sync
+
+### Defensive Wrapping
+- Code is auto-protected
+- Errors are caught safely
+
+---
+
+## Requirements 5–6
+
+### Error Visibility
+- Errors are always shown
+- Nothing fails silently
+
+### DOM Virtualization
+- Only visible lines render
+- Large files open instantly
+
+---
+
+## Requirements 7–8
+
+### Environment Flexibility
+- Use system Python or a virtual env
+- No forced runtime
+
+### Persistence Protocol
+- Auto-saves work and window state
+- No setup required
+
+---
+
+## Requirement 9
+
+### Keyboard-First Execution
+- Run with `Ctrl + Enter`
+- No mouse needed
+
+---
+
+## Specification Summary
+
+| Category     | Count | Description                  |
+|--------------|-------|------------------------------|
+| Features     | 5     | User-facing value drivers    |
+| Requirements | 9     | Strict technical constraints |
+
+---
+
+## Sprint 1 — The Foundation
+
+**Goal:** Build a working shell that handles  
+**Files · State · Layout**
+
+**Timeline:** 4 Weeks
+
+---
+
+## Week 1 — The Skeleton
+
+- Initialize the Electron project
+- Build the rigid 3-pane layout  
+  *(Left · Center · Right)*
+- Verify window works on:
+  - Windows
+  - macOS
+  - Linux
+
+---
+
+## Week 2 — The Brain
+
+- Install **Monaco Editor** in all three panes
+- Connect the **Redux store**
+- Persist editor state while typing
+- Enable **Python syntax highlighting** in the center pane
+
+---
+
+## Week 3 — The Input
+
+- Build drag-and-drop zone in the left pane
+- Connect the file system bridge
+- Load dragged files into the editor
+- Validate large text files load without crashing
+
+---
+
+## Week 4 — The Polish
+
+- **Auto-Save:** Restore code on reopen
+- **Hotkeys:** Add `Ctrl + Enter` support
+- **Read-Only Mode:**
+  - Lock left pane (input)
+  - Lock right pane (output)
+
+---
+
+
+
+## Resources & Links
+
+- **Repository:** https://github.com/pjgneck/ASE485-Capstone/tree/main
+- **Project Board:**  https://nku.instructure.com/courses/87393/pages/individual-project-parker-groneck-2
+- **Documentation:** https://github.com/pjgneck/ASE485-Capstone/tree/main/docs
+- **Progress Page** https://nku.instructure.com/courses/87393/pages/individual-progress-parker-groneck-2
