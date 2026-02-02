@@ -1,84 +1,176 @@
-# Drydock: The Offline Logic Studio
+---
+marp: true
+title: ⚓ Drydock: The Python Data Station
+theme: default
+paginate: true
+---
 
-## Team Members
+# ⚓ Drydock  
+## The Python Data Station
 
-- **Parker Groneck**
+**Team Member:**  
+Parker Groneck
+
+---
 
 ## Project Description
 
-  Drydock is a specialized desktop IDE designed to streamline the creation and debugging of enterprise data integration logic in an offline, safe environment. It utilizes a hybrid architecture where developers can define logic using either a concise, null-safe Domain Specific Language (DSL) or a synchronized visual block interface. This "sandbox" approach allows for rapid testing and bug-fixing, instantly transpiling your logic into production-ready Java or Python code for deployment on middleware platforms like Boomi or MuleSoft.
+**Drydock** is a lightweight, specialized **Desktop IDE** for rapid data transformation and debugging.
+
+- Replaces heavy environments (Docker, PyCharm)
+- Enforces a rigid **Linear Workflow**
+- Load raw data → Write Python → See output instantly
+- Designed for fixing real production data fast
+
+---
+
+## Why Drydock Exists
+
+- File-first workflow
+- No cloud deployments
+- No black-box debugging
+- Real files, real execution, immediate feedback
+
+Drydock lets developers fix broken **EDI, CSV, and JSON** files in seconds instead of minutes.
+
+---
 
 ## Problem Domain
 
-  The problem domain is Enterprise Data Transformation, specifically the friction between high-level business requirements and the rigid, error-prone code needed to implement them in middleware platforms. Developers currently struggle with a "Black Box" development cycle, where debugging logic requires slow cloud deployments and offers zero visibility into data flow until a failure occurs. This lack of an offline, safe testing environment leads to fragile integration scripts that are susceptible to runtime errors and costly production downtime.
+### Enterprise Data Transformation
 
-## Features and Requirements
+Key pain points:
+- **Complexity:** EDI and legacy formats are brittle
+- **Black Box:** Debugging often requires cloud deploys
+- **Overhead:** Local setup for tiny scripts is excessive
+- **AI Risk:** AI code hallucinates without real-data testing
 
-### Features
+---
 
-  1.  Hybrid Logic Editor
-    - A dual-view interface allowing users to write logic via the Visual Block Canvas OR the text-based Drydock Script (DSL). Changes in one view instantly update the other.
-  
-  2.  The "Drydock Script" DSL
-    - A proprietary, concise, null-safe scripting language designed specifically for data piping
+## Core Features (1/2)
 
-  3.  Live Data Inspector
-    - A real-time debugging panel that visualizes the state of data at every step of the pipeline (Input $\rightarrow$ Transformation $\rightarrow$ Output) without requiring a compile/deploy cycle.
+### Tri-Pane Linear Interface
+- Left: Input File  
+- Center: Python Logic  
+- Right: Output Result  
 
-  4.  Polyglot Transpiler
-    - An engine that compiles Drydock Script into standardized, production-ready code for multiple targets (initially Java/Groovy for Boomi and Python for AWS Lambda).
-  
-  5.  Mock Context Manager
-    - A settings environment to simulate production variables (e.g., Process Properties, Environment IDs) locally, enabling full "offline" testing.
+### File-First Input Engine
+- Left pane is a file previewer
+- Drag-and-drop CSV, EDI, JSON files
 
-  5.  Legacy Data Parser
-    - Built-in, zero-configuration parsers for complex legacy formats (EDI X12, XML, Fixed-Width) that visualize hierarchical data as a navigable tree.
+---
 
-### Requirements
+## Core Features (2/2)
 
-- Electron to run as a native offline application on Windows, macOS, and Linux.
-- The application must maintain a 1:1 mapping between the AST (Abstract Syntax Tree), the Visual Blocks (Google Blockly), and the Text Editor (Monaco/VS Code Editor).
-- Must utilize Node.js child processes to execute logic safely in a separate thread to prevent UI freezing during large file parsing.
-- The Compiler architecture must be modular, allowing new "Target Printers" (e.g., C# or SQL) to be added without rewriting the core logic engine.
-- Null Safety Enforcement
-- Users must be able to drag raw text/XML files from their desktop directly into the "Input" panel to trigger immediate parsing.
-- The "Export" function must wrap the generated logic in the specific boilerplate required by the target middleware
-- The Inspector must automatically detect and display the data type (String, Integer, Date) of the output to prevent type-mismatch errors.
- 
- 
-We have 5 features and 8 requirements.
+### Invisible Wrapper Engine
+- Handles all file I/O automatically
+- Users write only Python logic
+
+### Live Data Inspector
+- Auto-detects JSON / XML
+- Syntax highlighting and folding
+
+### Safe-Mode Execution
+- Isolated Node.js Child Process
+- Infinite loops never crash the app
+
+---
+
+## Engineering Standards (1/3)
+
+- **Cross-Platform Parity**  
+  Electron builds for Windows, macOS, Linux
+
+- **Process Isolation**  
+  All user logic runs outside the UI thread
+
+- **State Synchronization**  
+  Redux manages Input / Script / Output buffers
+
+---
+
+## Engineering Standards (2/3)
+
+- **Defensive Wrapping**  
+  Auto-injected try/except for all scripts
+
+- **Error Visibility**  
+  All Python stderr piped directly to the UI
+
+- **DOM Virtualization**  
+  Only visible lines rendered (>100MB files)
+
+---
+
+## Engineering Standards (3/3)
+
+- **Environment Flexibility**  
+  Support system Python and virtual envs
+
+- **Persistence Protocol**  
+  Auto-save window state and scripts
+
+- **Keyboard First**  
+  Global hotkeys (Ctrl + Enter)
+
+- **Data Sanitization**  
+  Enforced UTF-8 on all I/O streams
+
+---
 
 ## Tests
 
-### Acceptance Tests
+- Acceptance Tests — *Coming Soon*
+- Integration Tests — *Coming Soon*
+- End-to-End Tests — *Coming Soon*
 
-- Coming Soon
-
-  Link: -
-
-### Integration Tests
-
-- Coming Soon
-
-  Link: - 
-
-### E2E Tests
-
-- Coming Soon
+---
 
 ## Project Documentation
 
-- [Project Plan Presentation (PPP)](link-to-ppp)
-- [Individual Contributions - Parker Groneck](https://nku.instructure.com/courses/87393/pages/individual-progress-parker-groneck-2)
+- Project Plan Presentation (PPP)
+- Individual Contributions — Parker Groneck
 
-## Schedule & Milestones
+---
 
-### Sprint 1
+## Sprint 1 — The Foundation
 
-- Setup Electron with TypeScript, React, and Redux (for state management).
-- Define the JSON specification for the Pipeline and Statement objects (the internal data structure).
-- Build the 3-pane layout (Input, Editor, Output) using a resizable split-pane component.
-- Initialize Google Blockly in the Visual Panel.
-- Initialize Monaco Editor in the Script Panel with basic syntax highlighting for .dd (Drydock Script).
-- Build the logic that translates Blockly Events $\rightarrow$ AST $\rightarrow$ Monaco Text (and vice versa).
-- Dragging a block updates the text; typing text updates the block.
+**Goal:** Build a working shell for  
+**Files · State · Layout**
+
+---
+
+## Week 1 — The Skeleton
+
+- Initialize Electron with TypeScript & React
+- Build rigid 3-pane layout (Left / Center / Right)
+- Verify cross-platform rendering
+
+---
+
+## Week 2 — The Brain
+
+- Integrate Monaco Editor in all panes
+- Initialize Redux store
+- Sync Input, Script, Output buffers
+- Enable Python syntax highlighting
+
+---
+
+## Week 3 — The Bridge
+
+- Drag-and-drop support in left pane
+- Node.js file system bridge
+- Load file contents into input buffer
+- Lock input and output panes (read-only)
+
+---
+
+## Week 4 — The Polish
+
+- Auto-save window state and scripts
+- Bind Ctrl + Enter (stub execution)
+- Final UI styling
+- Implement Dark Mode theme
+
+---
