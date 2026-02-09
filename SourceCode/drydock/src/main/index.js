@@ -7,7 +7,6 @@ import { spawn } from 'child_process'
 import pty from 'node-pty'
 
 let ptyProcess = null;
-let pyProcess = null;
 let currentWorkingDirectory = os.homedir();
 
 function createWindow() {
@@ -63,10 +62,11 @@ ipcMain.on('terminal-resize', (event, { cols, rows }) => {
   }
 })
 
-// 2. INPUT (Keystrokes go DIRECTLY to PTY)
 ipcMain.on('terminal-input', (event, data) => {
   if (ptyProcess) {
     ptyProcess.write(data);
+  } else {
+    console.log("[ERROR] PTY Process is NULL!")
   }
 })
 
@@ -98,12 +98,15 @@ ipcMain.on('run-python-stream', (event, { code, filePath }) => {
   let scriptPath = filePath;
   if (filePath && filePath !== "Untitled.py") {
     fs.writeFileSync(filePath, code);
-  } else {
+  }
+  /*
+  else {
     // Fallback for Untitled files -> Save to Temp
     const tempPath = join(os.tmpdir(), 'drydock_script.py');
     fs.writeFileSync(tempPath, code);
     scriptPath = tempPath;
   }
+  */
 
   // B. KILL PREVIOUS PROCESS
   // Write "Ctrl + C" to the terminal to stop any running script

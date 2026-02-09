@@ -111,3 +111,22 @@ body, html, #root {
   overflow-y: auto;
   height: calc(100% - 30px);
 }
+
+.btn-tool{
+  background-color: transparent;
+  color: #ccc;
+  border: none;
+  padding: 5px 10px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.btn-tool:hover{
+  background-color: transparent;
+  color: #ccc;
+  border:  1px solid #ccc;
+  padding: 5px 10px;
+  font-size: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}

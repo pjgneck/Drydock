@@ -20,6 +20,8 @@ export default function XTermComponent() {
     term.open(terminalRef.current)
     fitAddon.fit()
 
+    term.focus()
+    terminalRef.current.addEventListener('click', () => term.focus())
     // 1. INPUT: Send RAW keystrokes to backend
     term.onData((data) => {
       if (window.electron) window.electron.sendInput(data)

@@ -5,22 +5,25 @@ import XTermComponent from './components/Terminal' // Import your new terminal
 import './assets/main.css'
 
 function App() {
+
   // --- STATE VARIABLES ---
-  const [inputData, setInputData] = useState("// Drag data file here")
-  const [userScript, setUserScript] = useState("# Click 'Open' to load a file\nprint('Hello World')")
-  const [outputData, setOutputData] = useState("// Returns here")
-  const [fileName, setFileName] = useState("Untitled.py")
+  const [inputData, setInputData] = useState("")
+  const [userScript, setUserScript] = useState("")
+  const [outputData, setOutputData] = useState("")
+  const [fileName, setFileName] = useState("")
   
-  // FIX: Restore isRunning state
+  //Set up for the States.
   const [isRunning, setIsRunning] = useState(false)
+
+  var FILE = null
 
   // --- FILE OPERATIONS ---
   const handleOpen = async () => {
     if (window.electron) {
-      const file = await window.electron.openFile()
-      if (file) {
-        setUserScript(file.content)
-        setFileName(file.name)
+      FILE = await window.electron.openFile()
+      if (FILE) {
+        setUserScript(FILE.content)
+        setFileName(FILE.name)
       }
     }
   }
@@ -28,7 +31,7 @@ function App() {
   const handleSave = async () => {
     if (!window.electron) return
 
-    if (fileName === "Untitled.py") {
+    if (FILE) {
       const newPath = await window.electron.saveAs(userScript)
       if (newPath) setFileName(newPath)
     } else {
@@ -38,38 +41,35 @@ function App() {
 
 const runPython = async () => {
     setIsRunning(true)
-    
     if (window.electron) {
-        // PASS 'fileName' SO BACKEND KNOWS WHERE WE ARE
         window.electron.startPython({ 
             code: userScript, 
             data: inputData, 
-            filePath: fileName // <--- Add this line
+            filePath: fileName
         })
     }
-    
     setTimeout(() => setIsRunning(false), 3000)
   }
 
   // --- THEME ---
   function handleEditorWillMount(monaco) {
-    monaco.editor.defineTheme('drydock-pro', {
-      base: 'vs-dark', inherit: true, rules: [], colors: { 'editor.background': '#1e1e1e' }
-    });
+    monaco.editor.defineTheme('drydock-pro', { base: 'vs-dark', inherit: true, rules: [], colors: { 'editor.background': '#1e1e1e' }});
   }
 
+
+  // React Output.
   return (
     <div style={{height:'100vh', display:'flex', flexDirection:'column', background:'#1e1e1e'}}>
       
       {/* TOOLBAR */}
       <div style={{height:'40px', background:'#252526', display:'flex', alignItems:'center', padding:'0 10px', borderBottom:'1px solid #333'}}>
-        <div style={{color:'#ccc', fontWeight:'bold', marginRight:'20px'}}>DRYDOCK</div>
-        <button onClick={handleOpen} className="btn-tool">📂 Open</button>
-        <button onClick={handleSave} className="btn-tool">💾 Save</button>
-        <div style={{flex:1, textAlign:'center', color:'#888', fontSize:'12px'}}>{fileName}</div>
-        <button onClick={runPython} className={isRunning ? "btn-tool-running" : "btn-tool-run"}>
-           {isRunning ? 'Running...' : '▶ Run Script'}
-        </button>
+        <div style={{color:'#7fb4cc', fontWeight:'bold', marginRight:'20px'}}>DRYDOCK</div>  
+        <button onClick={handleOpen} className="btn-tool">Open</button>
+          <button onClick={handleSave} className="btn-tool">Save</button>
+          <div style={{flex:1, textAlign:'center', color:'#888', fontSize:'12px'}}>{fileName}</div>
+          <button onClick={runPython} className={isRunning ? "btn-tool-running btn-tool" : "btn-tool-run btn-tool"}>
+            {isRunning ? 'Running...' : 'Run Script'}
+          </button> 
       </div>
 
       {/* MAIN LAYOUT */}
