@@ -1,0 +1,113 @@
+/* RESET */
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #1e1e1e;
+  color: #ccc;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden; /* Prevent scrolling on the main page */
+}
+
+/* SPLIT CONTAINERS */
+.split-horizontal {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100vw;
+}
+
+.split-vertical {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Fill the center column */
+  width: 100%;
+}
+
+/* GUTTER (The draggable bar) */
+.gutter {
+  background-color: #2b2b2b;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transition: background-color 0.2s;
+}
+.gutter:hover {
+  background-color: #007fd4; /* VS Code Blue highlight */
+}
+.gutter.gutter-horizontal {
+  cursor: col-resize;
+}
+.gutter.gutter-vertical {
+  cursor: row-resize;
+}
+
+/* PANES */
+.pane {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: #1e1e1e;
+  height: 100%; /* Ensure panes fill their split area */
+}
+
+/* Wrapper for the center column to hold the inner split */
+.pane-wrapper {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* HEADERS */
+.header {
+  background-color: #252526;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #999;
+  border-bottom: 1px solid #333;
+  height: 30px; /* Fixed height for calculations */
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.flex-between {
+  justify-content: space-between;
+}
+
+/* BUTTONS */
+.btn-run {
+  background-color: #1f8ad2;
+  color: white;
+  border: none;
+  border-radius: 2px;
+  padding: 2px 10px;
+  font-size: 11px;
+  cursor: pointer;
+}
+.btn-run:hover { background-color: #166ca5; }
+
+.btn-running {
+  background-color: #d28e1f;
+  color: white;
+  border: none;
+  padding: 2px 10px;
+  font-size: 11px;
+  cursor: wait;
+}
+
+/* TERMINAL SPECIFIC */
+.terminal-pane {
+  background-color: #121212;
+}
+.terminal-content {
+  padding: 10px;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 12px;
+  color: #cccccc;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  height: calc(100% - 30px);
+}
