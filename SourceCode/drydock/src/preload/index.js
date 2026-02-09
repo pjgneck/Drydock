@@ -1,14 +1,11 @@
 import { contextBridge, ipcRenderer } from 'electron'
 
 const api = {
-  // File System
   openFile: () => ipcRenderer.invoke('dialog:openFile'),
-  saveAs: (content) => ipcRenderer.invoke('dialog:saveFile', { content }), // Renamed for clarity
-  
-  // NEW: Save to existing path
+  //Save the file in local App data instead of the original file path.
+  saveAs: (content) => ipcRenderer.invoke('dialog:saveFile', { content }),
+  //Save to the file instead of create a new file in local App data.
   saveDirect: (filePath, content) => ipcRenderer.invoke('file:saveDirect', { filePath, content }),
-
-  // ... (Keep execution and listeners the same)
   startPython: (args) => ipcRenderer.send('run-python-stream', args),
   sendCommand: (text) => ipcRenderer.send('system-command', text),
   resizeTerminal: (size) => ipcRenderer.send('terminal-resize', size),
